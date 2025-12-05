@@ -1,11 +1,27 @@
 version 2:
 
 models:
-  - name: 
-    description:
+  - name: gold_marts_transactions_completed_kyc
+    description: 'transactions - kyc completed'
     config:
-      tags: []
+      tags: ['gold', 'marts', 'transactions-kyc-completed']
     columns:
-      - name:
+      - name: marts_key
         tests:
-        - 
+        - unique
+        - not_null
+  
+  - name: gold_marts_transactions_volume
+    description: 'transactions - volume'
+    config:
+      tags: ['gold', 'marts', 'transactions-volume']
+    columns:
+      - name: marts_key
+        tests:
+        - not_null
+        - unique
+      - name: status
+        tests:
+        - not_null
+        - accepted_values:
+            values: ['completed', 'cancelled_by_system', 'cancelled']

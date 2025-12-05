@@ -1,0 +1,129 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches:
+      - develop
+      - main
+      - feature/**
+    paths:
+      - "**"
+  pull_request:
+    branches:
+      - develop
+      - main
+
+env:
+  VARIABLE: variable
+
+jobs:
+  # ==================== Build Base Image ====================
+  build_base:
+    name: Build Base Image
+    runs-on: ubuntu-latest
+
+    if: >
+      github.event_name == 'pull_request' &&
+      github.base_ref == 'develop'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run build script
+        run: |
+          ....
+      - name: After script
+        run: |
+          ....
+
+  # ===================== dbt develop ========================
+  dbt_develop:
+    name: dbt develop
+    runs-on: ubuntu-latest
+
+    if: >
+      startsWith(github.ref_name, 'feature') &&
+      github.event_name == 'push'
+
+    # paths-filter để mô phỏng "changes"
+    permissions:
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check if model files changed
+        uses: dorny/paths-filter@v3
+        id: changes
+        with:
+          filters: |
+            models:
+              - 'transform/models/**'
+
+      - name: Run dbt develop
+        if: steps.changes.outputs.models == 'true'
+        run: |
+          ...
+
+      - name: After script
+        run: |
+          ...
+
+  # ===================== dbt prod ===========================
+  dbt_prod:
+    name: dbt prod
+    runs-on: ubuntu-latest
+
+    if: >
+      github.event_name == 'pull_request' &&
+      github.base_ref == 'main'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check model changes
+        uses: dorny/paths-filter@v3
+        id: changes
+        with:
+          filters: |
+            models:
+              - 'transform/models/**'
+
+      - name: Run dbt prod
+        if: steps.changes.outputs.models == 'true'
+        run: |
+          ...
+
+      - name: After script
+        run: |
+          ...
+
+  # ==================== Airflow Deploy ======================
+  airflow_deploy:
+    name: Deploy Airflow DAGs
+    runs-on: ubuntu-latest
+
+    if: >
+      github.ref_name == 'develop' &&
+      github.event_name == 'push'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check dags changes
+        uses: dorny/paths-filter@v3
+        id: changes
+        with:
+          filters: |
+            dags:
+              - 'orchestration/dags/**'
+
+      - name: Before script
+        if: steps.changes.outputs.dags == 'true'
+        run: |
+          ...
+
+      - name: Deploy DAGs
+        if: steps.changes.outputs.dags == 'true'
+        run: |
+          ...

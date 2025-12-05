@@ -26,7 +26,7 @@ Modeling data theo Medallion architecture: Bronze - Silver - Gold
 [staging/bronze_stg_transactions] [staging/bronze_stg_rates] [staging/bronze_stg_users]   
    |                                    |                     |
    v                                    v                     v
-[int/silver_int_transactions             ]               [int/silver_int_user_kyc_history]
+[int/silver_int_transactions]               [int/silver_int_user_kyc_history]
    |                |
    v                v
 [marts/gold_marts_transactions_completed_kyc]   [marts/gold_marts_transactions_volume]

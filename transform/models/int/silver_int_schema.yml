@@ -1,0 +1,12 @@
+version 2:
+
+models:
+  - name: silver_int_user_kyc_history
+    description: 'KYC History'
+    config:
+      tags: ['silver', 'int', 'user']
+    columns:
+      - name: int_key
+        tests:
+        - unique
+        - not_null

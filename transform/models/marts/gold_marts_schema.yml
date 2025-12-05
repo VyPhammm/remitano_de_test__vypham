@@ -1,0 +1,11 @@
+version 2:
+
+models:
+  - name: 
+    description:
+    config:
+      tags: []
+    columns:
+      - name:
+        tests:
+        - 

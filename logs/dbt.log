@@ -1,0 +1,31 @@
+[0m10:47:08.140383 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001AF00B36F90>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001AF00B37050>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001AF00B37200>]}
+
+
+============================== 10:47:08.147100 | fc0c22d3-f93e-4027-86a1-516aa7f6c3e8 ==============================
+[0m10:47:08.147100 [info ] [MainThread]: Running with dbt=1.7.0
+[0m10:47:08.148573 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'log_cache_events': 'False', 'write_json': 'True', 'partial_parse': 'True', 'cache_selected_only': 'False', 'warn_error': 'None', 'debug': 'False', 'profiles_dir': 'C:\\Users\\VyPG1\\.dbt', 'log_path': 'logs', 'fail_fast': 'False', 'version_check': 'True', 'use_colors': 'True', 'use_experimental_parser': 'False', 'no_print': 'None', 'quiet': 'False', 'log_format': 'default', 'invocation_command': 'dbt init transform', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'static_parser': 'True', 'target_path': 'None', 'introspect': 'True', 'send_anonymous_usage_stats': 'True'}
+[0m10:47:08.148573 [warn ] [MainThread]: [ConfigFolderDirectory]: Unable to parse dict {'dir': WindowsPath('C:/Users/VyPG1/.dbt')}
+[0m10:47:08.148573 [info ] [MainThread]: Creating dbt configuration folder at 
+[0m10:47:08.151031 [debug] [MainThread]: Starter project path: c:\Users\VyPG1\Documents\my_project\homework\.venv\Lib\site-packages\dbt\include\starter_project
+[0m10:47:08.197824 [info ] [MainThread]: 
+Your new dbt project "transform" was created!
+
+For more information on how to configure the profiles.yml file,
+please consult the dbt documentation here:
+
+  https://docs.getdbt.com/docs/configure-your-profile
+
+One more thing:
+
+Need help? Don't hesitate to reach out to us via GitHub issues or on Slack:
+
+  https://community.getdbt.com/
+
+Happy modeling!
+
+[0m10:47:08.197824 [info ] [MainThread]: Setting up your profile.
+[0m10:47:47.713227 [info ] [MainThread]: Profile transform written to C:\Users\VyPG1\.dbt\profiles.yml using target's profile_template.yml and your supplied values. Run 'dbt debug' to validate the connection.
+[0m10:47:47.714691 [debug] [MainThread]: Command `dbt init` succeeded at 10:47:47.714691 after 39.68 seconds
+[0m10:47:47.714691 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001AF0060CD40>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001AF1B55CEC0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001AF1B3E4170>]}
+[0m10:47:47.714691 [debug] [MainThread]: Flushing usage events
+[0m10:47:49.038612 [debug] [MainThread]: Error sending anonymous usage statistics. Disabling tracking for this execution. If you wish to permanently disable tracking, see: https://docs.getdbt.com/reference/global-configs#send-anonymous-usage-stats.

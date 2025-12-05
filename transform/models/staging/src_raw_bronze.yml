@@ -1,0 +1,38 @@
+version 2:
+
+sources:
+  - name: raw_bronze
+    database: raw_bronze
+    schema: raw_bronze
+    tags: ['bronze', 'staging']
+    tables:
+      - name: transactions
+        identifier: transactions
+        description: "Tra"
+        loaded_at_field: created_at
+        freshness:
+          warn_after: {count: 1, period: day}
+          error_after: {count: 2, period: day}
+        columns:
+          - name: txn_id
+            tests:
+              - not_null
+              - unique
+      
+      - name: users
+        identifier: users
+        columns:
+          - name: user_id
+            tests:
+              - not_null
+              - unique
+      
+      - name: rates
+        identifier: rates
+        columns:
+          - name: base_currency
+            tests:
+              - not_null
+          - name: open_time
+            tests:
+              - not_null

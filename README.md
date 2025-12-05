@@ -16,7 +16,14 @@ This project establishes a comprehensive system for processing cryptocurrency tr
 ```
 remitano_de_test__vypham/
 ├── ARCHITECTURE.md
-├── breakdown_task.md
+├── README.md
+├── .devcontainer/
+│   ├── devcontainer.json
+│   ├── Dockerfile
+│   └── requirements.txt
+├── .github/
+│   └── workflows/
+│       ├── github_ci.yml
 ├── docker/
 │   ├── docker-compose.yml
 │   ├── Dockerfile

@@ -1,20 +1,28 @@
 {{- config(
     materialized = 'incremental',
-    incremental_strategy: 'append',
-    unique_key: 'txn_id',
+    incremental_strategy: 'merge',
+    unique_key: 'fact_key',
     partition_by:{
-        "field": "created_date"
-        "data_type": "date"
-        "granularity": "day"       
+        "field": "created_date",
+        "data_type": "date"     
     },
     on_schema_change: 'append_new_column'
 )-}}
+
+{%- if is_incremental() %}
+  {%- set date_range = "DATE_SUB(CURRENT_DATE(), INTERVAL 7 DAY)" %}
+{%- endif %}
+
 
 WITH trans AS (
     SELECT 
         *,
         DATE(created_at) AS created_date
     FROM {{ ref('bronze_stg_transactions') }}
+    {%- if is_incremental() %}
+    WHERE 1=1 
+        AND DATE(created_at) >= {{ date_range }}
+    {%- endif %}
 )
 , rates AS (
     SELECT *
@@ -22,9 +30,9 @@ WITH trans AS (
 )
 , final AS (
     SELECT
+        t.txn_id AS fact_key,
         t.txn_id,
         t.user_id,
-        k.kyc_level,
         t.status,
         t.source_currency,
         t.destination_currency,

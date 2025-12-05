@@ -10,3 +10,18 @@ models:
         tests:
         - unique
         - not_null
+  
+  - name: silver_int_transactions
+    description: 'transactions'
+    config:
+      tags: ['silver', 'int', 'transactions']
+    columns:
+      - name: fact_key
+        tests:
+        - unique
+        - not_null
+      - name: status
+        tests:
+        - not_null
+        - accepted_values:
+            values: ['completed', 'cancelled_by_system', 'cancelled']

@@ -8,7 +8,7 @@ sources:
     tables:
       - name: transactions
         identifier: transactions
-        description: "Tra"
+        description: "transactions table from raw bronze"
         loaded_at_field: created_at
         freshness:
           warn_after: {count: 1, period: day}
@@ -29,10 +29,14 @@ sources:
       
       - name: rates
         identifier: rates
+        description: "currency exchange rates - USDT"
         columns:
           - name: base_currency
             tests:
               - not_null
           - name: open_time
+            tests:
+              - not_null
+          - name: close_time
             tests:
               - not_null

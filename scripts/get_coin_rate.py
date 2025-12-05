@@ -3,6 +3,7 @@ import time
 from datetime import datetime, timedelta
 import json
 import pandas as pd
+import logging
 
 def get_coin_price_1h(
         base_currency="BTC",
@@ -43,7 +44,7 @@ def get_coin_price_1h(
         data = resp.json()
 
         if isinstance(data, dict):
-            print(f"Error fetching {symbol}: {data}")
+            logging.warning(f"Error fetching {symbol}: {data}")
             break
 
         if not data:
@@ -70,25 +71,26 @@ def get_coin_price_1h(
 
     return result
 
+# --run script to get coin rates and save to CSV file
+if __name__ == "__main__":
+    DATA_PATH = r"../source_data/transactions_summary.json"
+    OUTPUT_PATH = r"../output/raw_rates/rates.csv" 
+    with open(DATA_PATH, "r") as f:
+        coins = json.load(f)
 
-DATA_PATH = r"../source_data/transactions_summary.json"
-OUTPUT_PATH = r"../output/raw_rates/rates.csv"
-with open(DATA_PATH, "r") as f:
-    coins = json.load(f)
+    all_prices = []
 
-all_prices = []
+    # Lặp qua từng coin
+    for coin_info in coins:
+        coin = coin_info["coin"]
+        min_time = coin_info["min_time"]
+        max_time = coin_info["max_time"]
 
-# Lặp qua từng coin
-for coin_info in coins:
-    coin = coin_info["coin"]
-    min_time = coin_info["min_time"]
-    max_time = coin_info["max_time"]
+        logging.warning(f"Fetching price for {coin} from {min_time} to {max_time} ...")
+        prices = get_coin_price_1h(base_currency=coin, quote_currency="USDT", start_date=min_time, end_date=max_time)
+        all_prices.extend(prices)
 
-    print(f"Fetching price for {coin} from {min_time} to {max_time} ...")
-    prices = get_coin_price_1h(base_currency=coin, quote_currency="USDT", start_date=min_time, end_date=max_time)
-    all_prices.extend(prices)
-
-# Chuyển sang DataFrame và xuất CSV
-df = pd.DataFrame(all_prices)
-df.to_csv(OUTPUT_PATH, index=False)
-print("Done! saved to CSV file")
+    # Chuyển sang DataFrame và xuất CSV
+    df = pd.DataFrame(all_prices)
+    df.to_csv(OUTPUT_PATH, index=False)
+    logging.warning("Done! saved to {OUTPUT_PATH}")
